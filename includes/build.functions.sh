@@ -144,7 +144,7 @@ function build_sync_files() {
     if [ "deep" == "${depth}" ] ; then
         trace "Depth: deep"
 
-        rsync --archive --verbose --delete-after \
+        rsync --archive --verbose \
               --exclude ".git" --exclude ".git*" \
               --exclude-from="${CI_EXCLUDE_FILES_FILE}" \
             "${source_dir}${source_path}/" \
