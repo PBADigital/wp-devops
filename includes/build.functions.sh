@@ -140,6 +140,7 @@ function build_sync_files() {
 
     trace "Command: rsync --archive --exclude-from=${CI_EXCLUDE_FILES_FILE} ${source_dir}${source_path} ${deploy_dir}${deploy_path}"
     trace "Exclude files from ${CI_EXCLUDE_FILES_FILE}: $(cat "${CI_EXCLUDE_FILES_FILE}")"
+    trace "Exclude disabled"
 
     if [ "deep" == "${depth}" ] ; then
         trace "Depth: deep"
