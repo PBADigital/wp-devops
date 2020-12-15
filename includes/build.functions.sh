@@ -146,7 +146,6 @@ function build_sync_files() {
 
         rsync --archive --verbose \
               --exclude ".git" --exclude ".git*" \
-              --exclude-from="${CI_EXCLUDE_FILES_FILE}" \
             "${source_dir}${source_path}/" \
             "${deploy_dir}${deploy_path}" >> $CI_LOG 2>&1
     else
@@ -154,7 +153,6 @@ function build_sync_files() {
 
         rsync --archive --verbose \
               --filter="- */" --filter="+ *" \
-              --exclude-from="${CI_EXCLUDE_FILES_FILE}" \
             "${source_dir}${source_path}/" \
             "${deploy_dir}${deploy_path}" >> $CI_LOG 2>&1
     fi
