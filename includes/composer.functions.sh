@@ -19,6 +19,22 @@ declare="${CI_LOG:=}"
 declare="${CI_SOURCED_FILE:=}"
 declare="${CI_TMP_DIR:=}"
 
+function composer_version() {
+    local repo_dir="$1"
+    push_dir "${repo_dir}"
+    set e+
+    local output=$(try "Checking composer version in ${repo_dir}" \
+        "$(composer -V 2>&1)")
+    catch $?
+    set -e
+    pop_dir
+    if [ 0 -ne $(last_error) ] ;then
+        announce "Composer had errors: $output"
+        return  $(last_error)
+    fi
+    return 0
+}
+
 function composer_run() {
     local repo_dir="$1"
     push_dir "${repo_dir}"

@@ -72,32 +72,39 @@ if is_error ; then
     exit 7
 fi
 
+announce "Checking 'composer version'"
+composer_version "${CI_PROJECT_DIR}"
+if is_error ; then
+    announce "$(last_output)"
+    exit 8
+fi
+
 announce "Running 'composer install'"
 composer_run "${CI_PROJECT_DIR}"
 if is_error ; then
     announce "$(last_output)"
-    exit 8
+    exit 9
 fi
 
 announce "Cloning deploy repo"
 build_clone_repo
 if is_error ; then
     announce "$(last_output)"
-    exit 9
+    exit 10
 fi
 
 announce "Processing files"
 build_process_files
 if is_error ; then
     announce "$(last_output)"
-    exit 10
+    exit 11
 fi
 
 announce "Removing 'delete' files"
 build_delete_files "${CI_DEPLOY_REPO_DIR}"
 if is_error ; then
     announce "$(last_output)"
-    exit 11
+    exit 12
 fi
 
 #announce "Incrementing deploy"
@@ -111,27 +118,27 @@ announce "Generating BUILD file"
 build_generate_file
 if is_error ; then
     announce "$(last_output)"
-    exit 12
+    exit 13
 fi
 
 announce "Pushing deploy to host"
 deploy_push
 if is_error ; then
     announce "$(last_output)"
-    exit 13
+    exit 14
 fi
 
 announce "Tagging build"
 build_tag_remote "${CI_PROJECT_DIR}"
 if is_error ; then
     announce "$(last_output)"
-    exit 14
+    exit 15
 fi
 
 build_tag_remote "${CI_DEPLOY_REPO_DIR}"
 if is_error ; then
     announce "$(last_output)"
-    exit 15
+    exit 16
 fi
 
 announce "Build tagged as $(build_get_current_tag)"
